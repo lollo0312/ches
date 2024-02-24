@@ -1,0 +1,34 @@
+:root {
+    --border-color : rgb(83, 83, 83);
+    background: rgb(26, 26, 26);
+}
+
+body {
+    overflow: hidden;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#board {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+#board_wrapper{
+    --width : 90;
+    border : 2px solid var(--border-color);
+    position: relative;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.highlight_square {
+    position: absolute;
+    width : var(--width);
+    height: var(--width);
+    box-shadow: inset 0 0 15px 8px rgba(255, 10, 10, .5);
+}
