@@ -1,8 +1,8 @@
 const WIDTH = 80;
 const BOARD = {
-    src : 'board.png',
-    black : '#69a250',
-    white : '#e4f2c9',
+    src : 'brown.png',
+    black : '#b58863',
+    white : '#f0d9b5',
 };
 const starting_position = "rnb1k2r/pppq2p1/6B1/3pP1B1/2P5/4nN2/PP3PPP/R3K2R b KQkq - 0 6"   //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
@@ -38,12 +38,20 @@ wrapper.addEventListener("click",(e) => {
     drawer.drawPossible(game.getMoves(side ? 7 - Math.floor((e.pageY-wrapper.offsetTop)/WIDTH) : Math.floor((e.pageY - wrapper.offsetTop)/WIDTH),side ? 7 - Math.floor((e.pageX - wrapper.offsetLeft)/WIDTH) : Math.floor((e.pageX - wrapper.offsetTop)/WIDTH)));
 });
 
-wrapper.addEventListener('keypress', (e) => {
+document.addEventListener('keypress', (e) => {
+    console.log('keypres')
     if (e.key == "w"){
+        drawGame();
         drawer.drawOnSquares(game.visibleSquares(0));
     } else if (e.key == "k"){
+        drawGame();
         drawer.drawOnSquares(game.visibleSquares(1));
+    } else if (e.key == "f"){
+        side = !side;
+        drawer.changeSide();
+        drawGame();
     }
+
 });
 
 // wrapper.dispatchEvent()

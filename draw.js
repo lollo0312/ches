@@ -7,10 +7,18 @@ class Drawer{
         this.glob_width = cell_width*8;
         this.glob_height = cell_width*8;
         this.width = cell_width;
-        this.highlighted = {};
+        this.highlighted = new Array();
         this.board_element = document.getElementById("board_wrapper");
         this.board_element.style.setProperty("--width",cell_width + "px");
     }
+    changeSide(){
+        this.flipped = !this.flipped;
+        for (let elem of this.highlighted){
+            elem.div_element.style.setProperty("left", (this.flipped ? 7-elem.pos[1] : elem.pos[1])*this.width + "px");
+            elem.div_element.style.setProperty("top", (this.flipped ? 7-elem.pos[0] : elem.pos[0])*this.width + "px");
+        }
+    }
+
     async drawEmptyBoard(info){
         ctx.clearRect(0,0,this.glob_width,this.glob_height)
         let colours = [info.white, info.black]
@@ -61,11 +69,15 @@ class Drawer{
         }
     }
 
-    async highlightSquare(pos){
+    highlightSquare(pos){
         let square = document.createElement('div');
         square.className = "highlight_square";
         square.style.setProperty("left", (this.flipped ? 7-pos[1] : pos[1])*this.width + "px");
         square.style.setProperty("top", (this.flipped ? 7-pos[0] : pos[0])*this.width + "px");
         this.board_element.appendChild(square);
+        this.highlighted.push({
+            div_element : square,
+            pos : pos,
+        });
     }
 }
