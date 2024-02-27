@@ -1,5 +1,5 @@
 function copyPos(board){
-    let out = new Array();
+    let out = [];
     for (let row of board){
         out.push(row.slice(0));
     }    
@@ -69,7 +69,7 @@ class ChessBoard{
     }
 
     lookforward(row, col, dirs){
-        let out = new Array();
+        let out = [];
         let pos = [row, col];
         let self_color = (this.positions[row][col] == this.positions[row][col].toLowerCase());
         for (let dir of dirs){
@@ -94,7 +94,7 @@ class ChessBoard{
     }
 
     lookaround(row,col, dirs){
-        let out = new Array();
+        let out = [];
         let self_color = (this.positions[row][col] == this.positions[row][col].toLowerCase());
         for (let dir of dirs){
             let cur = [row+dir[0], col + dir[1]]
@@ -130,7 +130,7 @@ class ChessBoard{
 
 
     getMoves(row, col){
-        let out = new Array();
+        let out = [];
         console.log(row,col)
         if (!this.positions[row][col]){
             return out
@@ -167,13 +167,13 @@ class ChessBoard{
             });
 
             // castling
-            let observe = new Array();
+            let observe = [];
             if (this.can_castle[bw + "_Kside"] && !this.positions[row][col+1] && !this.positions[row][col+2]){
                 observe.push([row, col]);
                 observe.push([row, col+1]);
                 if (this.lookCastle(observe, bw=="w")) out.push([row,col+3]);  
             } 
-            observe = new Array();
+            observe = [];
             if (this.can_castle[bw + "_Qside"] && !this.positions[row][col-1] && !this.positions[row][col-2] && !this.positions[row][col-3]){
                 observe.push([row, col]);
                 observe.push([row, col-1]);
@@ -198,7 +198,7 @@ class ChessBoard{
         return out;
     }
     visibleSquares(color){    // 0 is white
-        let out = new Array();
+        let out = [];
         for  (let ii = 0; ii < 8; ii++){
             out.push(new Array(8));
         }

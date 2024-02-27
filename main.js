@@ -13,19 +13,21 @@ var drawer = new Drawer(side, WIDTH);
 let piece_images = {};
 
 function drawGame(){
-    drawer.drawEmptyBoard(game.style);
-    drawer.drawPos(game.positions,piece_images);
+    return Promise.all([ 
+        drawer.drawEmptyBoard(game.style),
+        drawer.drawPos(game.positions,piece_images)
+    ])
 }
 
-loadEverything(BOARD,piece_images).then((empty_board)=> {
+Loader.loadEverything(BOARD,piece_images).then(async (all)=> {
     console.log("Loaded");
     game = new ChessBoard(starting_position, {
         black : BOARD.black,
         white : BOARD.white,
-        image : empty_board,
+        image : all.pop(),
     });
     console.log(game);
-    drawGame();
+    await drawGame();
     let check = game.check;
     if (check){
         drawer.highlightSquare(check);
@@ -33,9 +35,9 @@ loadEverything(BOARD,piece_images).then((empty_board)=> {
 }).catch(console.error.bind(console));
 
 let wrapper = document.getElementById('board_wrapper');
-wrapper.addEventListener("click",(e) => {
-    drawGame();
-    drawer.drawPossible(game.getMoves(side ? 7 - Math.floor((e.pageY-wrapper.offsetTop)/WIDTH) : Math.floor((e.pageY - wrapper.offsetTop)/WIDTH),side ? 7 - Math.floor((e.pageX - wrapper.offsetLeft)/WIDTH) : Math.floor((e.pageX - wrapper.offsetTop)/WIDTH)));
+wrapper.addEventListener("click", async (e) => {
+    await drawGame();
+    await drawer.drawPossible(game.getMoves(side ? 7 - Math.floor((e.pageY-wrapper.offsetTop)/WIDTH) : Math.floor((e.pageY - wrapper.offsetTop)/WIDTH),side ? 7 - Math.floor((e.pageX - wrapper.offsetLeft)/WIDTH) : Math.floor((e.pageX - wrapper.offsetTop)/WIDTH)));
 });
 
 document.addEventListener('keypress', (e) => {

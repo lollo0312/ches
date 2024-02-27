@@ -1,4 +1,6 @@
-async function loadImage(filename){
+Loader = {};
+
+Loader.loadImage = async function(filename){
     return new Promise((r,e) => {
         let i = new Image()
         i.cross_origin = "anonymous";
@@ -23,10 +25,12 @@ let pieceIds = {
     "Bking": "k"
 };
 
-
-async function loadEverything(board, pieces){
+Loader.loadEverything = function (board, pieces){
+    let out = [];
     for (let [name, char] of Object.entries(pieceIds)){
-        pieces[char] = await loadImage(name + '.png');
+        let temp = Loader.loadImage(name + '.png');
+        temp.then(e => pieces[char] = e);
+        out.push(temp);
     }
-    return await loadImage(board.src)
+    return Promise.all(out.concat(Loader.loadImage(board.src)))
 }
